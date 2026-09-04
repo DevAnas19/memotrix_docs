@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Use Cases — Memotrix Docs</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header" id="site-header"></header>
+
+<main>
+  <section class="hero" style="padding:64px 0 48px;">
+    <div class="wrap">
+      <span class="hero-tag"><span class="badge-dot"></span>Use cases</span>
+      <h1 style="font-size:clamp(2rem,3.6vw,3rem);">Where teams put Memotrix to work.</h1>
+      <p class="lede">Anywhere an agent needs to remember: facts, past turns, standing rules, or the contents of files handed to it.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap grid-3">
+      <div class="usecase-card" id="assistants">
+        <h3>Agent loops</h3>
+        <p>Give a tool-using agent persistent semantic and episodic memory across turns and sessions.</p>
+        <div class="usecase-eg">see examples/03_agent_loop.py</div>
+      </div>
+      <div class="usecase-card" id="rag">
+        <h3>RAG systems</h3>
+        <p>Point <span class="font-mono" style="font-size:0.85rem;">memory.add()</span> at a folder of files and retrieve relevant chunks to ground generated answers.</p>
+        <div class="usecase-eg">see examples/02_files_postgres.py</div>
+      </div>
+      <div class="usecase-card" id="coding">
+        <h3>Coding assistants</h3>
+        <p>Retrieve source code and its surrounding documentation together, in one search call.</p>
+        <div class="usecase-eg">e.g. filters={"memory_type": "procedural"}</div>
+      </div>
+      <div class="usecase-card" id="enterprise">
+        <h3>Enterprise knowledge</h3>
+        <p>Unify documents, email, and chat exports into one searchable memory layer with source tracing.</p>
+        <div class="usecase-eg">e.g. memory.list_sources()</div>
+      </div>
+      <div class="usecase-card" id="domain">
+        <h3>Domain apps</h3>
+        <p>Marine, education, finance and medical apps already ingest domain-specific files with <span class="font-mono" style="font-size:0.85rem;">memory.add(path)</span> and store free-form notes with <span class="font-mono" style="font-size:0.85rem;">memory.add_text(...)</span>.</p>
+        <div class="usecase-eg">confirmed in the project README</div>
+      </div>
+      <div class="usecase-card" id="research">
+        <h3>Research systems</h3>
+        <p>Retrieve papers, datasets and notes across a body of work using hybrid similarity search.</p>
+        <div class="usecase-eg">e.g. top_k tuning per query</div>
+      </div>
+      <div class="usecase-card" id="multimodal-uc" style="grid-column: span 1;">
+        <h3>Multimodal AI</h3>
+        <p>Reason over images, audio (via Whisper) and text as one memory, using the extractors and audio extras.</p>
+        <div class="usecase-eg">pip install memotrix[extractors,audio]</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="wrap">
+      <div class="cta-band">
+        <div>
+          <h3>Explore the architecture behind these</h3>
+          <p>See how the pipeline supports each of these scenarios.</p>
+        </div>
+        <a href="architecture.html" class="btn btn-primary">View architecture</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="js/main.js"></script>
+</body>
+</html>

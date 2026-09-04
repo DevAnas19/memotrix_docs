@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Memotrix — Composable hybrid memory for agents</title>
+<meta name="description" content="Memotrix is a pip-installable, composable hybrid memory / RAG library for agents — hybrid search, pluggable embeddings, and broad file-type support." />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header" id="site-header"></header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" style="text-align:center; padding-bottom:56px;">
+    <div class="wrap">
+
+      <div class="hero-visual reveal">
+        <svg width="150" height="150" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g opacity="0.9">
+            <path d="M75 18L122 44V96L75 122L28 96V44L75 18Z" stroke="#c9b8fa" stroke-width="1" fill="url(#g1)"/>
+            <path d="M75 46L104 62V86L75 102L46 86V62L75 46Z" stroke="#b39cf5" stroke-width="1" fill="url(#g2)"/>
+            <path d="M75 4V18M75 122V136M28 44L16 37M122 44L134 37M28 96L16 103M122 96L134 103" stroke="#d8cbfb" stroke-width="1"/>
+            <circle cx="75" cy="4" r="2.5" fill="#8b5cf6"/>
+            <circle cx="16" cy="37" r="2.5" fill="#8b5cf6"/>
+            <circle cx="134" cy="103" r="2.5" fill="#8b5cf6"/>
+          </g>
+          <defs>
+            <linearGradient id="g1" x1="28" y1="18" x2="122" y2="122" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#ede9fe"/><stop offset="1" stop-color="#c9b8fa" stop-opacity="0.5"/>
+            </linearGradient>
+            <linearGradient id="g2" x1="46" y1="46" x2="104" y2="102" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#ddd3fb"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0.4"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <h1 class="reveal" style="animation-delay:.05s; margin:0 auto 22px; max-width:700px;">Composable hybrid<br/><span class="grad-text">memory</span> for agents.</h1>
+      <p class="lede reveal" style="animation-delay:.1s; margin:22px auto 6px; text-align:center;">Memotrix is a pip-installable memory and RAG library for agents — like LangChain, but focused on memory. Hybrid dense + sparse search, pluggable embeddings, and extractors for over 20 file types.</p>
+      <p class="reveal" style="animation-delay:.12s; color:var(--ink-faint); font-size:0.95rem; margin-bottom:34px;">Hybrid search. Pluggable embeddings. Pip-installable.</p>
+
+      <div class="hero-actions reveal" style="animation-delay:.15s; justify-content:center; align-items:center;">
+        <span class="terminal-cta">
+          <span class="prompt-icon">◆</span><span class="prompt-sep">$</span>
+          <span>pip install memotrix[memory]</span>
+        </span>
+        <a href="docs.html" class="btn btn-outline" style="background:none; border:none; color:var(--ink-muted); padding:11px 4px;">Documentation</a>
+        <a href="https://github.com/Matrixxboy/memotrix" target="_blank" rel="noopener" class="btn btn-outline">View on GitHub →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE: SUPPORTED FORMATS ============ -->
+  <div class="marquee-band">
+    <div class="marquee-label">FILE TYPES MEMOTRIX EXTRACTS TODAY</div>
+    <div class="marquee-track" id="marquee-track">
+      <!-- populated by JS: duplicated for seamless loop -->
+    </div>
+  </div>
+
+  <!-- ============ QUICK START ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Quick start</span>
+        <h2>A few lines to working memory</h2>
+        <p>Construct a <code class="font-mono" style="background:var(--bg-soft);padding:2px 6px;border-radius:4px;">Memory</code> object, add text or files, and search — no default host, password, or embedding model is assumed.</p>
+      </div>
+      <div class="codeblock" style="max-width:720px;">
+        <div class="codeblock-head"><span class="codeblock-filename">quickstart.py</span><button class="copy-btn">Copy</button></div>
+        <pre><span class="k">from</span> memotrix <span class="k">import</span> Memory
+<span class="k">from</span> memotrix.embeddings <span class="k">import</span> HuggingFaceEmbeddings
+<span class="k">from</span> memotrix.vectorstores <span class="k">import</span> InMemoryStore
+
+embeddings = HuggingFaceEmbeddings(model=<span class="s">"BAAI/bge-small-en-v1.5"</span>)
+memory = Memory(embeddings=embeddings, store=InMemoryStore(embeddings))
+
+memory.add_text(<span class="s">"User prefers dark mode."</span>, memory_type=<span class="s">"semantic"</span>)
+hits = memory.search(<span class="s">"what theme does the user want?"</span>, top_k=3)</pre>
+      </div>
+      <div style="margin-top:18px;"><a href="docs.html#quick-start" class="btn btn-outline btn-sm">See full quick start →</a></div>
+    </div>
+  </section>
+
+  <!-- ============ PROBLEM: BEFORE / AFTER ============ -->
+  <section class="section section-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">The problem</span>
+        <h2>Agent memory keeps getting rebuilt from scratch.</h2>
+        <p>Facts, past conversations, procedures, and source files each end up with their own one-off storage and retrieval code. Memotrix gives agents one composable memory object instead.</p>
+      </div>
+
+      <div class="compare">
+        <div class="compare-box scattered">
+          <span class="compare-label">BEFORE</span>
+          <div class="scatter-chips">
+            <span class="chip">Custom vector DB glue</span>
+            <span class="chip">One-off file parsers</span>
+            <span class="chip">Hardcoded embedding calls</span>
+            <span class="chip">No memory typing</span>
+          </div>
+        </div>
+        <span class="compare-arrow">→</span>
+        <div class="compare-box unified">
+          <span class="compare-label">AFTER</span>
+          <div class="unified-core">memory.add_text() / memory.search()</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SUPPORTED DATA PREVIEW ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Supported data</span>
+        <h2>Extractors for real-world formats</h2>
+        <p>PDF, Office, HTML, CSV, images, video, audio and more are wired in today — <a href="data.html" style="color:var(--accent);border-bottom:1px solid var(--accent-soft-2)">see the full file-type catalogue →</a></p>
+      </div>
+      <div class="grid-4">
+        <div class="card">
+          <div class="card-icon">DOC</div>
+          <h4>Documents</h4>
+          <p>PDF, DOCX, PPTX, TXT, Markdown, HTML, EPUB.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">{ }</div>
+          <h4>Structured</h4>
+          <p>CSV, Excel (.xlsx), JSON, YAML, XML, SQL, GeoJSON.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">KG</div>
+          <h4>Knowledge graphs</h4>
+          <p>Turtle, N-Triples, RDF, JSON-LD, GraphML.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">@</div>
+          <h4>Communication</h4>
+          <p>Email (.eml/.mbox), chat JSON/JSONL, WhatsApp export.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">IMG</div>
+          <h4>Images &amp; video</h4>
+          <p>Wired via the <span class="font-mono" style="font-size:0.78rem;">extractors</span> extra.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">▶</div>
+          <h4>Audio</h4>
+          <p>Whisper transcription via the <span class="font-mono" style="font-size:0.78rem;">audio</span> extra.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&lt;/&gt;</div>
+          <h4>Source code</h4>
+          <p>General source code files.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">SC</div>
+          <h4>SCORM &amp; logs</h4>
+          <p>.scorm packages, .log files.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MEMORY TYPES PREVIEW ============ -->
+  <section class="section section-alt">
+    <div class="wrap">
+      <div class="grid-2" style="align-items:center; gap:56px;">
+        <div>
+          <span class="eyebrow">Memory model</span>
+          <h2 style="margin-bottom:16px;">Three memory types, one payload filter</h2>
+          <p class="body-text" style="margin-bottom:28px;"><span class="font-mono" style="font-size:0.85rem;">memory_type</span> is an exact-match filter on every stored entry — semantic, episodic, or procedural — <a href="memory.html" style="color:var(--accent);border-bottom:1px solid var(--accent-soft-2)">read about the memory model →</a></p>
+        </div>
+        <div class="mem-stack">
+          <div class="mem-layer" style="grid-template-columns: 1fr;">
+            <div><span class="mem-layer-name"><span class="dot" style="background:var(--accent)"></span>Semantic</span><p style="margin:6px 0 0;">Durable facts, docs, preferences.</p></div>
+          </div>
+          <div class="mem-layer" style="grid-template-columns: 1fr;">
+            <div><span class="mem-layer-name"><span class="dot" style="background:var(--amber)"></span>Episodic</span><p style="margin:6px 0 0;">Chat turns, scoped by session_id.</p></div>
+          </div>
+          <div class="mem-layer" style="grid-template-columns: 1fr;">
+            <div><span class="mem-layer-name"><span class="dot" style="background:var(--green)"></span>Procedural</span><p style="margin:6px 0 0;">Rules and standing instructions.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ARCHITECTURE PREVIEW ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Architecture</span>
+        <h2>Pluggable at every layer</h2>
+        <p>Swap embeddings, swap the store, swap the extractor — <a href="architecture.html" style="color:var(--accent);border-bottom:1px solid var(--accent-soft-2)">explore the interactive architecture diagram →</a></p>
+      </div>
+      <div class="grid-4">
+        <div class="card"><h4>Memory</h4><p>The core object agents call.</p></div>
+        <div class="card"><h4>Embeddings</h4><p>HuggingFace, OpenAI, or Fake.</p></div>
+        <div class="card"><h4>Vector stores</h4><p>InMemory (HNSW+BM25) or Postgres.</p></div>
+        <div class="card"><h4>Extractors</h4><p>Turn files into DocumentData.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ USE CASES PREVIEW ============ -->
+  <section class="section section-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Use cases</span>
+        <h2>Where teams are already using it</h2>
+      </div>
+      <div class="grid-3">
+        <div class="usecase-card"><h3>Agent loops</h3><p>Give a tool-using agent persistent semantic and episodic memory.</p></div>
+        <div class="usecase-card"><h3>RAG over files</h3><p>Point <span class="font-mono" style="font-size:0.85rem;">memory.add()</span> at a folder and search across it.</p></div>
+        <div class="usecase-card"><h3>Domain apps</h3><p>Marine, education, finance and medical apps already ingest domain files this way.</p></div>
+      </div>
+      <div style="margin-top:20px;"><a href="use-cases.html" class="btn btn-outline btn-sm">See all use cases</a></div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="cta-band">
+        <div>
+          <h3>Read the documentation</h3>
+          <p>Installation extras, the full API, and every supported file type.</p>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <a href="docs.html" class="btn btn-primary">Go to docs</a>
+          <a href="https://github.com/Matrixxboy/memotrix" target="_blank" rel="noopener" class="btn btn-outline">GitHub ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="js/main.js"></script>
+<script>
+  const FORMATS = [
+    'PDF','DOCX','PPTX','TXT','Markdown','HTML','EPUB','CSV','XLSX','JSON',
+    'YAML','XML','SQL','GeoJSON','RDF','GraphML','EML','JSONL','SCORM','LOG'
+  ];
+  const track = document.getElementById('marquee-track');
+  if(track){
+    const itemsHtml = FORMATS.map(ext => `<div class="marquee-item"><span class="m-dot">${ext.slice(0,2)}</span>${ext}</div>`).join('');
+    track.innerHTML = itemsHtml + itemsHtml; // duplicate for seamless loop
+  }
+</script>
+</body>
+</html>

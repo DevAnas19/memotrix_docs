@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Architecture — Memotrix Docs</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header" id="site-header"></header>
+
+<main>
+  <section class="hero" style="padding:64px 0 48px;">
+    <div class="wrap">
+      <span class="hero-tag"><span class="badge-dot"></span>Architecture</span>
+      <h1 style="font-size:clamp(2rem,3.6vw,3rem);">How Memotrix is put together.</h1>
+      <p class="lede">Memotrix is built around one core object — <span class="font-mono" style="font-size:0.9rem;">Memory</span> — that composes a pluggable embeddings model, a vector store, and file extractors.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap prose" style="max-width:820px;">
+      <p>A call to <span class="font-mono" style="font-size:0.88rem;">memory.add()</span> or <span class="font-mono" style="font-size:0.88rem;">memory.add_text()</span> moves data through extraction, chunking and embedding before it's stored; <span class="font-mono" style="font-size:0.88rem;">memory.search()</span> reverses the path to return the closest matches.</p>
+    </div>
+
+    <div class="wrap" style="margin-top:32px;">
+      <div class="pipeline" style="margin-bottom:40px;">
+        <div class="pipeline-node"><div class="pipeline-node-box">Text or file</div></div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-node"><div class="pipeline-node-box">Extractor</div></div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-node"><div class="pipeline-node-box">Chunking</div></div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-node"><div class="pipeline-node-box">Embeddings</div></div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-node"><div class="pipeline-node-box">Vector store</div></div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-node"><div class="pipeline-node-box">memory.search()</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INTERACTIVE COMPONENT DIAGRAM ============ -->
+  <section class="section section-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Core components</span>
+        <h2>Five pieces, each swappable</h2>
+        <p>These map to the public API surface described in the project's README. Select one to read what it does.</p>
+      </div>
+
+      <div class="arch-diagram">
+        <div class="arch-row">
+          <div class="arch-cell" data-title="Memory" data-detail="The core object agents call. Composes an embeddings model, a vector store, and optionally a custom extractor. Can be built directly or via Memory.from_env().">
+            <div class="arch-cell-title">Memory</div>
+            <div class="arch-cell-sub">memotrix.Memory</div>
+          </div>
+          <div class="arch-cell" data-title="Embeddings" data-detail="Pluggable embedding backends implementing a shared Embeddings interface: HuggingFaceEmbeddings (local default), OpenAIEmbeddings, or FakeEmbeddings for testing.">
+            <div class="arch-cell-title">Embeddings</div>
+            <div class="arch-cell-sub">memotrix.embeddings</div>
+          </div>
+          <div class="arch-cell" data-title="Vector stores" data-detail="InMemoryStore runs an in-process hybrid HNSW (dense) + BM25 (sparse) index with no external services. PostgresStore uses PostgreSQL with pgvector.">
+            <div class="arch-cell-title">Vector stores</div>
+            <div class="arch-cell-sub">memotrix.vectorstores</div>
+          </div>
+          <div class="arch-cell" data-title="Extractors" data-detail="Convert files — PDF, Office docs, HTML, CSV, images, audio and more — into DocumentData that can be chunked and embedded. A custom extract_file function can replace the built-in extractors.">
+            <div class="arch-cell-title">Extractors</div>
+            <div class="arch-cell-sub">extractors extra</div>
+          </div>
+          <div class="arch-cell" data-title="Config" data-detail="Memory.from_env() builds a Memory instance from environment variables (EMBEDDING_MODEL, DATABASE_URL, MEMOTRIX_BACKEND, RERANKER_MODEL) and fails fast if required variables are missing.">
+            <div class="arch-cell-title">Config</div>
+            <div class="arch-cell-sub">Memory.from_env()</div>
+          </div>
+        </div>
+      </div>
+      <div class="arch-detail open" id="arch-detail-box"></div>
+    </div>
+  </section>
+
+  <!-- ============ CUSTOM EXTRACTORS / EMBEDDINGS ============ -->
+  <section class="section-tight">
+    <div class="wrap prose" style="max-width:820px;">
+      <h2 style="margin-top:0;">Swapping in your own pieces</h2>
+      <p>Every layer accepts a custom implementation instead of the built-in default:</p>
+      <div class="codeblock">
+        <div class="codeblock-head"><span class="codeblock-filename">custom.py</span><button class="copy-btn">Copy</button></div>
+        <pre>memory = Memory(
+    embeddings=embeddings,
+    extract_file=my_extractor,  <span class="c"># (path, *, describe_images, generate_srt) -> DocumentData</span>
+)</pre>
+      </div>
+      <p>Custom dense/sparse indexes can also be passed as <span class="font-mono" style="font-size:0.85rem;">store=</span> if they expose <span class="font-mono" style="font-size:0.85rem;">.dense</span> and <span class="font-mono" style="font-size:0.85rem;">.sparse</span>.</p>
+    </div>
+  </section>
+
+  <!-- ============ SCOPE CALLOUT ============ -->
+  <section class="section-tight">
+    <div class="wrap prose" style="max-width:820px;">
+      <div class="callout callout-amber">
+        <span class="callout-label">SCOPE NOTE</span>
+        <p>Details on this page reflect the public API documented in the project's README. This documentation site itself has no backend — it explains Memotrix's design, but doesn't run the library.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="wrap">
+      <div class="cta-band">
+        <div>
+          <h3>See every supported file type</h3>
+          <p>The Data page lists everything Memotrix's extractors currently handle — and what's not supported yet.</p>
+        </div>
+        <a href="data.html" class="btn btn-primary">Explore file types</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="js/main.js"></script>
+</body>
+</html>

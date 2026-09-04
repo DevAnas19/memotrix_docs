@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Documentation — Memotrix</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header" id="site-header"></header>
+
+<main>
+  <div class="wrap docs-shell">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <div class="docs-group">
+        <div class="docs-group-title">GETTING STARTED</div>
+        <a href="#introduction" class="active">Introduction</a>
+        <a href="#installation">Installation</a>
+        <a href="#quick-start">Quick start</a>
+      </div>
+      <div class="docs-group">
+        <div class="docs-group-title">CORE CONCEPTS</div>
+        <a href="architecture.html">Architecture</a>
+        <a href="#memory-types">Agent memory types</a>
+        <a href="#custom">Custom extractors &amp; embeddings</a>
+        <a href="#env-vars">Environment config</a>
+      </div>
+      <div class="docs-group">
+        <div class="docs-group-title">DATA</div>
+        <a href="data.html#documents">Documents</a>
+        <a href="data.html#structured">Structured &amp; tabular</a>
+        <a href="data.html#knowledge">Knowledge graphs</a>
+        <a href="data.html#communication">Communication</a>
+        <a href="data.html#media">Images &amp; video</a>
+        <a href="data.html#audio">Audio</a>
+        <a href="data.html#code">Source code</a>
+        <a href="data.html#other">SCORM &amp; logs</a>
+      </div>
+      <div class="docs-group">
+        <div class="docs-group-title">MEMORY</div>
+        <a href="memory.html#semantic">Semantic memory</a>
+        <a href="memory.html#episodic">Episodic memory</a>
+        <a href="memory.html#procedural">Procedural memory</a>
+        <a href="memory.html#patterns">Higher-level patterns</a>
+      </div>
+      <div class="docs-group">
+        <div class="docs-group-title">USE CASES</div>
+        <a href="use-cases.html#rag">RAG systems</a>
+        <a href="use-cases.html#assistants">Agent loops</a>
+        <a href="use-cases.html#domain">Domain apps</a>
+      </div>
+      <div class="docs-group">
+        <div class="docs-group-title">PROJECT</div>
+        <a href="roadmap.html">Roadmap</a>
+        <a href="contributors.html">Contributors</a>
+        <a href="https://github.com/Matrixxboy/memotrix" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="https://github.com/Matrixxboy/memotrix/blob/main/docs/USER_GUIDE.md" target="_blank" rel="noopener">Full user guide ↗</a>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN DOC CONTENT ============ -->
+    <article class="docs-main prose">
+      <div class="breadcrumbs"><a href="index.html">Home</a> / <a href="docs.html">Docs</a> / Introduction</div>
+
+      <span class="badge" style="margin-bottom:14px;">Core documentation</span>
+      <h1 id="introduction" style="font-size:2rem; margin-bottom:14px;">Introduction</h1>
+      <p class="lede" style="margin-bottom:0;">Memotrix is a composable hybrid memory / RAG library for agents — pip-installable, in the spirit of LangChain, but scoped specifically to memory.</p>
+
+      <p style="margin-top:1.6rem;">At its center is one object, <span class="font-mono" style="font-size:0.9rem;">Memory</span>, that composes three pluggable pieces: an <strong>embeddings</strong> model, a <strong>vector store</strong>, and a set of <strong>extractors</strong> that turn files into text. There is no default password, host, database name, embedding model, or embedding dimension — every one of those is supplied explicitly or read from the environment.</p>
+
+      <h2 id="installation">Installation</h2>
+      <p>The package ships with optional install extras, so you only pull in what you use.</p>
+
+      <div class="codeblock">
+        <div class="codeblock-head"><span class="codeblock-filename">minimum install</span><button class="copy-btn">Copy</button></div>
+        <pre>pip install memotrix[memory]</pre>
+      </div>
+      <p style="margin-top:-0.6rem; color:var(--ink-faint); font-size:0.85rem;">In-process HNSW + BM25 hybrid search, plus local embeddings.</p>
+
+      <div class="codeblock">
+        <div class="codeblock-head"><span class="codeblock-filename">postgres + file extractors</span><button class="copy-btn">Copy</button></div>
+        <pre>pip install memotrix[postgres,memory,extractors]</pre>
+      </div>
+
+      <div class="codeblock">
+        <div class="codeblock-head"><span class="codeblock-filename">editable (this repo)</span><button class="copy-btn">Copy</button></div>
+        <pre>pip install -e ./memory[postgres,local,embeddings,extractors,openai]</pre>
+      </div>
+
+      <table>
+        <thead><tr><th>Extra</th><th>What it enables</th></tr></thead>
+        <tbody>
+          <tr><td class="font-mono">memory</td><td>local + embeddings (minimum to construct Memory)</td></tr>
+          <tr><td class="font-mono">local</td><td>in-process HNSW + BM25</td></tr>
+          <tr><td class="font-mono">embeddings</td><td>Sentence-Transformers / HuggingFace models</td></tr>
+          <tr><td class="font-mono">postgres</td><td>PostgreSQL + pgvector</td></tr>
+          <tr><td class="font-mono">extractors</td><td>PDF, Office, HTML, CSV, images, …</td></tr>
+          <tr><td class="font-mono">openai</td><td>OpenAI chat/vision + OpenAIEmbeddings</td></tr>
+          <tr><td class="font-mono">audio</td><td>Whisper transcription for audio files</td></tr>
+          <tr><td class="font-mono">all</td><td>everything above</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <span class="callout-label">NO DEFAULTS</span>
+        <p>There is no default password, host, database name, embedding model, or embedding dimension. Every one of these must be set explicitly.</p>
+      </div>
+
+      <h2 id="quick-start">Quick start</h2>
+      <p>Construct a <span class="font-mono" style="font-size:0.85rem;">Memory</span>, add text, and search:</p>
+
+      <div class="codeblock">
+        <div class="codeblock-head"><span class="codeblock-filename">quickstart.py</span><button class="copy-btn">Copy</button></div>
+        <pre><span class="k">from</span> memotrix <span class="k">import</span> Memory
+<span class="k">from</span> memotrix.embeddings <span class="k">import</span> HuggingFaceEmbeddings, FakeEmbeddings
+<span class="k">from</span> memotrix.vectorstores <span class="k">import</span> PostgresStore, InMemoryStore
+
+embeddings = HuggingFaceEmbeddings(model=<span class="s">"BAAI/bge-small-en-v1.5"</span>)
+memory = Memory(
+    embeddings=embeddings,
+    store=InMemoryStore(embeddings),
+)
+
+memory.add_text(<span class="s">"User prefers dark mode."</span>, memory_type=<span class="s">"semantic"</span>)
+hits = memory.search(<span class="s">"what theme does the user want?"</span>, top_k=3)
+memory.delete(<span class="s">"text:…"</span>)  <span class="c"># or the source_id you passed</span></pre>
+      </div>
+
+      <p>Files work the same way:</p>
+      <div class="codeblock">
+        <div class="codeblock-head"><span class="codeblock-filename">files.py</span><button class="copy-btn">Copy</button></div>
+        <pre>memory.add(<span class="s">"report.pdf"</span>)
+hits = memory.search(<span class="s">"what is the revenue?"</span>, filters={<span class="s">"memory_type"</span>: <span class="s">"semantic"</span>})
+print(memory.list_sources())</pre>
+      </div>
+
+      <div class="doctabs">
+        <div class="doctabs-nav">
+          <button class="active">Postgres</button>
+          <button>From environment</button>
+        </div>
+        <div class="doctabs-panel active">
+          <div class="codeblock" style="margin-top:0;">
+            <div class="codeblock-head"><span class="codeblock-filename">postgres.py</span><button class="copy-btn">Copy</button></div>
+            <pre><span class="k">import</span> os
+<span class="k">from</span> memotrix.vectorstores <span class="k">import</span> PostgresStore
+
+embeddings = HuggingFaceEmbeddings(model=os.environ[<span class="s">"EMBEDDING_MODEL"</span>])
+memory = Memory(
+    embeddings=embeddings,
+    store=PostgresStore(connection=os.environ[<span class="s">"DATABASE_URL"</span>], embeddings=embeddings),
+)</pre>
+          </div>
+        </div>
+        <div class="doctabs-panel">
+          <div class="codeblock" style="margin-top:0;">
+            <div class="codeblock-head"><span class="codeblock-filename">from_env.py</span><button class="copy-btn">Copy</button></div>
+            <pre><span class="k">from</span> memotrix <span class="k">import</span> Memory
+memory = Memory.from_env()  <span class="c"># fails if required vars are missing</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="memory-types">Agent memory types</h2>
+      <p><span class="font-mono" style="font-size:0.85rem;">add_text</span> is the path for facts, chat turns, and procedures — not only files. <span class="font-mono" style="font-size:0.85rem;">memory_type</span> and <span class="font-mono" style="font-size:0.85rem;">session_id</span> are exact-match payload filters.</p>
+
+      <div class="codeblock">
+        <div class="codeblock-head"><span class="codeblock-filename">memory_types.py</span><button class="copy-btn">Copy</button></div>
+        <pre>memory.add_text(<span class="s">"Shipped hybrid search."</span>, memory_type=<span class="s">"episodic"</span>, session_id=<span class="s">"2026-09-03"</span>)
+memory.add_text(<span class="s">"Always cite source_path."</span>, memory_type=<span class="s">"procedural"</span>)
+memory.search(<span class="s">"how should answers be cited?"</span>, memory_type=<span class="s">"procedural"</span>)</pre>
+      </div>
+
+      <p>Full detail on each type lives on the <a href="memory.html">memory model page</a>.</p>
+
+      <h2 id="custom">Custom extractors and embeddings</h2>
+      <div class="codeblock">
+        <div class="codeblock-head"><span class="codeblock-filename">custom.py</span><button class="copy-btn">Copy</button></div>
+        <pre>memory = Memory(
+    embeddings=embeddings,
+    extract_file=my_extractor,  <span class="c"># (path, *, describe_images, generate_srt) -> DocumentData</span>
+)</pre>
+      </div>
+      <p><span class="font-mono" style="font-size:0.85rem;">OpenAIEmbeddings</span> implements the same <span class="font-mono" style="font-size:0.85rem;">Embeddings</span> ABC (install <span class="font-mono" style="font-size:0.85rem;">[openai]</span>). HuggingFace remains the local default. Custom dense/sparse indexes can be passed as <span class="font-mono" style="font-size:0.85rem;">store=</span> if they expose <span class="font-mono" style="font-size:0.85rem;">.dense</span> and <span class="font-mono" style="font-size:0.85rem;">.sparse</span>.</p>
+
+      <h2 id="env-vars">Environment config</h2>
+      <p><span class="font-mono" style="font-size:0.85rem;">Memory.from_env()</span> reads configuration from environment variables and fails if a required one is missing:</p>
+      <table>
+        <thead><tr><th>Variable</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td class="font-mono">EMBEDDING_MODEL</td><td>always for from_env()</td></tr>
+          <tr><td class="font-mono">DATABASE_URL</td><td>or discrete DATABASE_* / POSTGRES_* parts, when MEMOTRIX_BACKEND=postgres</td></tr>
+          <tr><td class="font-mono">MEMOTRIX_BACKEND</td><td>memory (default) or postgres</td></tr>
+          <tr><td class="font-mono">RERANKER_MODEL</td><td>optional</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-amber">
+        <span class="callout-label">FULL REFERENCE</span>
+        <p>This page covers the core surface. Every constructor, search-hit shape, file type, and troubleshooting step is documented in the repository's <a href="https://github.com/Matrixxboy/memotrix/blob/main/docs/USER_GUIDE.md" target="_blank" rel="noopener">USER_GUIDE.md</a>. Packaging steps are in <a href="https://github.com/Matrixxboy/memotrix/blob/main/docs/PUBLISHING.md" target="_blank" rel="noopener">PUBLISHING.md</a>.</p>
+      </div>
+
+      <div class="prevnext">
+        <a href="why-memotrix.html"><span class="dir">← PREVIOUS</span>Why Memotrix</a>
+        <a href="architecture.html" class="to-next"><span class="dir">NEXT →</span>Architecture</a>
+      </div>
+    </article>
+
+    <!-- ============ TOC ============ -->
+    <aside class="docs-toc" aria-label="On this page">
+      <div class="docs-toc-title">ON THIS PAGE</div>
+      <a href="#introduction">Introduction</a>
+      <a href="#installation">Installation</a>
+      <a href="#quick-start">Quick start</a>
+      <a href="#memory-types">Agent memory types</a>
+      <a href="#custom">Custom extractors &amp; embeddings</a>
+      <a href="#env-vars">Environment config</a>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Memory — Memotrix Docs</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header" id="site-header"></header>
+
+<main>
+  <section class="hero" style="padding:64px 0 48px;">
+    <div class="wrap">
+      <span class="hero-tag"><span class="badge-dot"></span>Memory model</span>
+      <h1 style="font-size:clamp(2rem,3.6vw,3rem);">Memory for AI agents.</h1>
+      <p class="lede">Every entry stored in Memotrix carries a <span class="font-mono" style="font-size:0.9rem;">memory_type</span> — an exact-match payload filter, not a separate store. Three values are built in.</p>
+    </div>
+  </section>
+
+  <!-- ============ CONFIRMED MEMORY TYPES ============ -->
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="mem-stack">
+        <div class="mem-layer" id="semantic">
+          <span class="mem-layer-name"><span class="dot" style="background:var(--accent)"></span>Semantic</span>
+          <div>
+            <p>Durable, general knowledge that doesn't depend on a specific moment or conversation — facts, preferences, documents.</p>
+            <div class="codeblock" style="margin:12px 0 0;">
+              <pre style="padding:12px 16px; font-size:0.78rem;">memory.add_text(<span class="s">"User prefers dark mode."</span>, memory_type=<span class="s">"semantic"</span>)</pre>
+            </div>
+          </div>
+        </div>
+        <div class="mem-layer" id="episodic">
+          <span class="mem-layer-name"><span class="dot" style="background:var(--amber)"></span>Episodic</span>
+          <div>
+            <p>What happened, and when — scoped to a conversation or task via <span class="font-mono" style="font-size:0.85rem;">session_id</span>, another exact-match filter.</p>
+            <div class="codeblock" style="margin:12px 0 0;">
+              <pre style="padding:12px 16px; font-size:0.78rem;">memory.add_text(<span class="s">"Shipped hybrid search."</span>, memory_type=<span class="s">"episodic"</span>, session_id=<span class="s">"2026-09-03"</span>)</pre>
+            </div>
+          </div>
+        </div>
+        <div class="mem-layer" id="procedural">
+          <span class="mem-layer-name"><span class="dot" style="background:var(--green)"></span>Procedural</span>
+          <div>
+            <p>Standing rules and instructions the agent should keep following, independent of any one conversation.</p>
+            <div class="codeblock" style="margin:12px 0 0;">
+              <pre style="padding:12px 16px; font-size:0.78rem;">memory.add_text(<span class="s">"Always cite source_path."</span>, memory_type=<span class="s">"procedural"</span>)</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:24px;">
+        <span class="callout-label">HOW FILTERING WORKS</span>
+        <p>Both <span class="font-mono" style="font-size:0.85rem;">memory_type</span> and <span class="font-mono" style="font-size:0.85rem;">session_id</span> are exact-match filters on <span class="font-mono" style="font-size:0.85rem;">memory.search()</span> — they narrow a similarity search rather than querying a separate table.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HIGHER-LEVEL PATTERNS (clearly labeled as usage patterns, not API values) ============ -->
+  <section class="section section-alt" id="patterns">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Building on the primitives</span>
+        <h2>Higher-level memory patterns</h2>
+        <p>Semantic, episodic and procedural memory are the only <span class="font-mono" style="font-size:0.88rem;">memory_type</span> values documented today. Broader agent-memory concepts can still be built on top of them:</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <h4>Working memory</h4>
+          <p>Not a separate store — typically the current turn's context, held by the calling application, with only what's worth keeping written back via <span class="font-mono" style="font-size:0.8rem;">add_text</span>.</p>
+        </div>
+        <div class="card">
+          <h4>Long-term memory</h4>
+          <p>Semantic and procedural entries that are never deleted — durability comes from how long you keep the entry, not a separate memory type.</p>
+        </div>
+        <div class="card">
+          <h4>Multimodal memory</h4>
+          <p>Any memory type populated from non-text sources — images, audio, video — via <span class="font-mono" style="font-size:0.8rem;">memory.add()</span> and the extractors that back it.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" style="margin-top:28px;">
+        <span class="callout-label">SCOPE NOTE</span>
+        <p>These three patterns describe ways to use Memotrix's primitives — they are not separate <span class="font-mono" style="font-size:0.85rem;">memory_type</span> values in the API. Only <span class="font-mono" style="font-size:0.85rem;">"semantic"</span>, <span class="font-mono" style="font-size:0.85rem;">"episodic"</span> and <span class="font-mono" style="font-size:0.85rem;">"procedural"</span> are documented.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RETRIEVAL FLOW ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Retrieval</span>
+        <h2>Search combines similarity with filters</h2>
+        <p><span class="font-mono" style="font-size:0.88rem;">memory.search()</span> runs a hybrid dense + sparse similarity search, then narrows results with any filters you pass.</p>
+      </div>
+      <div class="grid-2" style="align-items:center;">
+        <div class="mem-stack">
+          <div class="mem-layer" style="grid-template-columns:1fr;"><div><strong>Query</strong><p style="margin:4px 0 0;">A natural-language question or task.</p></div></div>
+          <div class="mem-layer" style="grid-template-columns:1fr;"><div><strong>Hybrid search</strong><p style="margin:4px 0 0;">Dense (HNSW) and sparse (BM25) results are combined.</p></div></div>
+          <div class="mem-layer" style="grid-template-columns:1fr;"><div><strong>Filters</strong><p style="margin:4px 0 0;">memory_type, session_id and other payload filters narrow the set.</p></div></div>
+          <div class="mem-layer" style="grid-template-columns:1fr;"><div><strong>top_k hits</strong><p style="margin:4px 0 0;">The closest matching entries are returned to the caller.</p></div></div>
+        </div>
+        <div>
+          <div class="codeblock">
+            <div class="codeblock-head"><span class="codeblock-filename">search.py</span><button class="copy-btn">Copy</button></div>
+            <pre>hits = memory.search(
+    <span class="s">"how should answers be cited?"</span>,
+    memory_type=<span class="s">"procedural"</span>,
+)</pre>
+          </div>
+          <p style="color:var(--ink-muted); font-size:0.9rem;">Files added with <span class="font-mono" style="font-size:0.82rem;">memory.add()</span> keep their <span class="font-mono" style="font-size:0.82rem;">source_path</span>, so results can be traced back to the original file.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight section-alt">
+    <div class="wrap">
+      <div class="cta-band">
+        <div>
+          <h3>Read the full quick start</h3>
+          <p>Installation, constructors, and every memory_type example.</p>
+        </div>
+        <a href="docs.html#memory-types" class="btn btn-primary">Go to documentation</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="js/main.js"></script>
+</body>
+</html>
