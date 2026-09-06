@@ -1,0 +1,33 @@
+import { SearchItem } from "@/types/search";
+import { GH_URL } from "./constants";
+
+export const SEARCH_INDEX: SearchItem[] = [
+  { cat: "Getting Started", title: "What is Memotrix?", href: "/docs#introduction", snippet: "Composable hybrid memory / RAG library for AI agents." },
+  { cat: "Getting Started", title: "Why Memotrix", href: "/why-memotrix", snippet: "AI memory is scattered; Memotrix unifies it." },
+  { cat: "Getting Started", title: "Installation & extras", href: "/docs#installation", snippet: "pip install memotrix[memory] or extra dependencies." },
+  { cat: "Getting Started", title: "Quick start", href: "/docs#quick-start", snippet: "Memory(embeddings=..., store=...) in a few lines of Python." },
+  { cat: "Core Concepts", title: "Architecture overview", href: "/architecture", snippet: "Five swappable core components: Memory, Embeddings, Stores, Extractors, Config." },
+  { cat: "Core Concepts", title: "Agent memory types (API)", href: "/docs#memory-types", snippet: "Semantic, Episodic, and Procedural memory endpoints." },
+  { cat: "Core Concepts", title: "Custom extractors & embeddings", href: "/docs#custom", snippet: "Pass custom extract_file or vectorstore implementations." },
+  { cat: "Core Concepts", title: "Environment config", href: "/docs#env-vars", snippet: "Memory.from_env() configuration via EMBEDDING_MODEL & DATABASE_URL." },
+  { cat: "Data", title: "Documents (PDF, DOCX, EPUB)", href: "/data#documents", snippet: "Extract text and structured hierarchy from PDF, Word, e-books." },
+  { cat: "Data", title: "Structured & tabular (CSV, JSON, SQL)", href: "/data#structured", snippet: "Spreadsheet rows, database records, and key-value trees." },
+  { cat: "Data", title: "Knowledge graphs (RDF, GraphML)", href: "/data#knowledge", snippet: "Triple stores, ontology graphs, and semantic networks." },
+  { cat: "Data", title: "Communication (email, chat)", href: "/data#communication", snippet: "Parse .eml messages, mbox archives, and chat exports." },
+  { cat: "Data", title: "Images & video", href: "/data#media", snippet: "OCR and multimodal vector representations via extractors extra." },
+  { cat: "Data", title: "Audio (Whisper transcription)", href: "/data#audio", snippet: "Automatic speech recognition to retrievable text chunks." },
+  { cat: "Data", title: "Source code", href: "/data#code", snippet: "AST-aware chunking for Python, TypeScript, C++, and Go." },
+  { cat: "Data", title: "SCORM & logs", href: "/data#other", snippet: "e-Learning packages, audit traces, and system log lines." },
+  { cat: "Memory", title: "Semantic memory", href: "/memory#semantic", snippet: "Long-term facts, concepts, and domain knowledge." },
+  { cat: "Memory", title: "Episodic memory", href: "/memory#episodic", snippet: "Past user interactions, agent runs, and event sequences." },
+  { cat: "Memory", title: "Procedural memory", href: "/memory#procedural", snippet: "Action patterns, tool call recipes, and workflow steps." },
+  { cat: "Memory", title: "Higher-level memory patterns", href: "/memory#patterns", snippet: "Short-term buffer with persistent long-term storage consolidation." },
+  { cat: "Use Cases", title: "RAG systems", href: "/use-cases#rag", snippet: "Hybrid dense + sparse retrieval for precision context." },
+  { cat: "Use Cases", title: "Agent loops", href: "/use-cases#assistants", snippet: "Long-horizon state maintenance across agent execution steps." },
+  { cat: "Use Cases", title: "Coding assistants", href: "/use-cases#coding", snippet: "Project codebase indexing with hybrid vector and keyword search." },
+  { cat: "Use Cases", title: "Enterprise knowledge", href: "/use-cases#enterprise", snippet: "Cross-departmental document and chat memory repository." },
+  { cat: "Use Cases", title: "Domain apps", href: "/use-cases#domain", snippet: "Custom AI agent memory for legal, medical, or financial domains." },
+  { cat: "Project", title: "Roadmap", href: "/roadmap", snippet: "See what's released today and what's coming next." },
+  { cat: "Project", title: "Contributors", href: "/contributors", snippet: "Open-source contributors, guidelines, and community links." },
+  { cat: "Project", title: "GitHub repository", href: GH_URL, snippet: "Matrixxboy/memotrix on GitHub." },
+];
