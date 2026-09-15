@@ -131,6 +131,16 @@ body::before {
   color: var(--ink);
 }
 
+/* ── Docs markdown ─────────────────────────────── */
+.docs-mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.docs-prose > h1 + p {
+  margin-top: 1rem;
+}
+
 /* ── Reduced motion ────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee { animation: none; }

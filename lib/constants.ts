@@ -12,10 +12,10 @@ export const FOOTER_SECTIONS: FooterSection[] = [
   {
     title: "DOCUMENTATION",
     links: [
-      { href: "/docs", label: "Introduction" },
-      { href: "/architecture", label: "Architecture" },
-      { href: "/data", label: "Data" },
-      { href: "/memory", label: "Memory" },
+      { href: "/docs", label: "Overview" },
+      { href: "/docs/quickstart", label: "Quickstart" },
+      { href: "/docs/api/memory", label: "Memory API" },
+      { href: "/docs/use-cases", label: "Use cases" },
     ],
   },
   {

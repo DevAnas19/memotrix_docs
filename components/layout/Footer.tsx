@@ -44,7 +44,7 @@ export function Footer() {
           <div className="md:col-span-3">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#596176] mb-3 block">Developers</span>
             <nav className="space-y-1.5">
-              <Link href="/docs#quick-start" className="flex items-center gap-1 text-sm text-[#8a92a5] hover:text-white transition-colors">
+              <Link href="/docs/quickstart" className="flex items-center gap-1 text-sm text-[#8a92a5] hover:text-white transition-colors">
                 Quick Start <ArrowUpRight className="h-3 w-3" />
               </Link>
               <a href={`${GH_URL}/issues`} target="_blank" rel="noopener noreferrer"

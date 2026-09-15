@@ -21,6 +21,10 @@ export function useSearchModal() {
         e.preventDefault();
         setIsOpen(true);
       }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsOpen(true);
+      }
       if (e.key === "Escape") {
         closeSearch();
       }
