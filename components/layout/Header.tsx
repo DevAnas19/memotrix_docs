@@ -21,7 +21,7 @@ export function Header() {
           </Link>
           <nav className="hidden lg:flex items-center gap-0.5" aria-label="Primary">
             {NAV_LINKS.map((link) => {
-              const active = pathname === link.href;
+              const active = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
               return (
                 <Link key={link.href} href={link.href}
                   className={cn(
@@ -45,7 +45,7 @@ export function Header() {
               className="h-8 w-8 inline-flex items-center justify-center rounded-lg border border-rule bg-paper-card text-ink-muted hover:text-ink hover:border-brand-blue/30 transition-colors" aria-label="GitHub">
               <Github className="h-4 w-4" />
             </a>
-            <Link href="/docs#quick-start"
+            <Link href="/docs/quickstart"
               className="hidden sm:inline-flex h-8 items-center px-3.5 rounded-lg bg-ink text-white text-xs font-semibold hover:bg-[#1a2240] transition-colors shadow-sm active:scale-95">
               Get Started →
             </Link>
@@ -58,7 +58,7 @@ export function Header() {
           <div className="lg:hidden border-t border-rule bg-paper-card px-4 py-3 space-y-0.5">
             {NAV_LINKS.map((link) => (
               <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}
-                className={cn("block px-3 py-2 text-sm rounded-lg font-medium", pathname === link.href ? "text-ink bg-paper-3" : "text-ink-secondary hover:bg-paper-3 hover:text-ink")}>
+                className={cn("block px-3 py-2 text-sm rounded-lg font-medium", pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href)) ? "text-ink bg-paper-3" : "text-ink-secondary hover:bg-paper-3 hover:text-ink")}>
                 {link.label}
               </Link>
             ))}

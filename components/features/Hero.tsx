@@ -71,7 +71,7 @@ export function Hero() {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2 z-10 relative">
-              <Button href="/docs#quick-start" size="lg" className="rounded-full px-7 bg-[#3867ff] hover:bg-[#2b51cc] shadow-md transition-all text-center justify-center h-12">
+              <Button href="/docs/quickstart" size="lg" className="rounded-full px-7 bg-[#3867ff] hover:bg-[#2b51cc] shadow-md transition-all text-center justify-center h-12">
                 Get Started <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
               <Button href="/docs" variant="outline" size="lg" className="rounded-full px-7 bg-transparent border-ink/20 text-ink hover:bg-black/5 font-semibold transition-all text-center justify-center h-12">

@@ -53,7 +53,7 @@ export function ArchitectureFeatures() {
             Ready to remember everything? ✓
           </div>
           <div className="flex flex-wrap justify-center gap-3">
-            <Button href="/docs#quick-start" size="lg" className="gap-2">
+            <Button href="/docs/quickstart" size="lg" className="gap-2">
               Start Building <ArrowRight className="h-4 w-4" />
             </Button>
             <Button href="/architecture" variant="outline" size="lg">
