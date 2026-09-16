@@ -38,7 +38,7 @@ export function MemoryTypeGrid() {
                 <span className="block text-[13px] mt-1 text-brand-blue font-bold font-hand">{t.annotation}</span>
               </div>
               <p className="text-[12px] text-ink-secondary leading-relaxed mb-2">{t.desc}</p>
-              <CodeBlock code={t.code} language="python" className="!my-0 !text-[11px]" />
+              <CodeBlock code={t.code} language="python" showLineNumbers={false} compact className="!my-0" />
             </Card>
           ))}
         </div>

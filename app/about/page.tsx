@@ -1,5 +1,5 @@
 import React from "react";
-import { Github, Twitter, ExternalLink, PenTool } from "lucide-react";
+import { Github, ExternalLink, PenTool } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 
@@ -15,10 +15,10 @@ export default function AboutPage() {
       tapeRotation: "-rotate-2"
     },
     {
-      name: "ANSARI ANAS ASIF",
+      name: "ANSARI ANAS",
       role: "Core Contributor",
-      image: "https://2.gravatar.com/avatar/d2d22694d4f94560388d4435722b3fec",
-      link: "https://gravatar.com/anas",
+      image: "https://2.gravatar.com/avatar/64c5b82c7e49bcc62bda84aeebcb8ce90dea1cc8c833f743d6b90c896475522d?size=512&d=initials",
+      link: "https://gravatar.com/strangerunabashedlycba7cee569",
       notes: "Led the development of advanced extractors and data pipelines for the Memotrix ecosystem.",
       color: "border-brand-purple/30 text-brand-purple",
       tapeRotation: "rotate-3"

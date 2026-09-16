@@ -44,7 +44,7 @@ export function ArchitectureFeatures() {
               </div>
               <h3 className="font-bold text-ink text-base mb-1.5">{a.title}</h3>
               <p className="text-[13px] text-ink-secondary leading-relaxed mb-3">{a.desc}</p>
-              <CodeBlock code={a.code} className="!my-0 !text-[11px]" />
+              <CodeBlock code={a.code} language="python" showLineNumbers={false} compact className="!my-0" />
             </Card>
           ))}
         </div>

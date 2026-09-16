@@ -19,13 +19,6 @@ export function Hero() {
           <div className="xl:col-span-5 space-y-6 relative">
             
             {/* Top Tag / Annotation */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 border border-ink/10 shadow-xs backdrop-blur-sm select-none">
-              <span className="w-2 h-2 rounded-full bg-[#3867ff] animate-pulse" />
-              <span className="text-[12px] sm:text-[13px] font-semibold text-ink uppercase tracking-wider">v0.1.0 Open Source</span>
-              <span className="text-ink/30">|</span>
-              <span className="font-hand font-bold text-ink text-[14px]">Production-Ready</span>
-            </div>
-
             <div className="space-y-2 relative">
               <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[62px] font-extrabold tracking-tight leading-[1.12] text-ink relative z-10">
                 Memory for<br />

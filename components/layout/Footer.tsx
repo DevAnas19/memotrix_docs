@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Github, Twitter, ArrowUpRight } from "lucide-react";
+import { Github, ArrowUpRight } from "lucide-react";
 import { NAV_LINKS, GH_URL } from "@/lib/constants";
 export function Footer() {
   return (
@@ -20,10 +20,6 @@ export function Footer() {
               <a href={GH_URL} target="_blank" rel="noopener noreferrer"
                 className="h-8 w-8 inline-flex items-center justify-center rounded-lg bg-[#1a2240] hover:bg-[#253060] text-[#8a92a5] hover:text-white transition-colors" aria-label="GitHub">
                 <Github className="h-4 w-4" />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
-                className="h-8 w-8 inline-flex items-center justify-center rounded-lg bg-[#1a2240] hover:bg-[#253060] text-[#8a92a5] hover:text-white transition-colors" aria-label="Twitter">
-                <Twitter className="h-4 w-4" />
               </a>
             </div>
             <div className="font-hand text-[17px] text-[#596176] font-bold select-none pt-1">

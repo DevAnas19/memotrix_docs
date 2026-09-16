@@ -137,8 +137,15 @@ body::before {
   height: auto;
 }
 
-.docs-prose > h1 + p {
-  margin-top: 1rem;
+.docs-prose pre .token,
+.docs-prose code .token {
+  background: transparent;
+}
+
+.docs-prose pre ::selection,
+.docs-prose code ::selection {
+  background: rgba(56, 103, 255, 0.28);
+  color: #fff;
 }
 
 /* ── Reduced motion ────────────────────────────── */

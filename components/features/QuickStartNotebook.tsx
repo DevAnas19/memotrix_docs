@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Check, Copy } from "lucide-react";
 import { useCopy } from "@/hooks/useCopy";
 import { cn } from "@/lib/utils";
+import { HighlightedCode } from "@/components/ui/HighlightedCode";
 const tabs = [
   { id: "in-memory", label: "In-Memory" },
   { id: "postgres", label: "Postgres" },
@@ -75,9 +76,12 @@ export function QuickStartNotebook() {
                 }
               </button>
             </div>
-            <pre className="p-6 overflow-x-auto text-[#d4daf0] font-mono text-[13px] leading-[1.7]">
-              <code>{code[active]}</code>
-            </pre>
+            <HighlightedCode
+              code={code[active]}
+              language={active === "env" ? "bash" : "python"}
+              showLineNumbers
+              className="p-6 text-[13px]"
+            />
           </div>
         </div>
       </div>
